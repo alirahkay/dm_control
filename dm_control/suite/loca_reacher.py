@@ -117,5 +117,5 @@ class LoCAReacher(base.Task):
 
   def get_reward(self, physics):
     radii = physics.named.model.geom_size[['target_a', 'finger'], 0].sum()
-    finger_to_a_dist, finger_to_b_dist = physics.finger_to_target_dist() 
+    finger_to_a_dist, finger_to_b_dist = physics.finger_to_targets_dist() 
     return rewards.tolerance(finger_to_a_dist ,(0, radii)) + 4 * rewards.tolerance(finger_to_b_dist ,(0, radii)) 
