@@ -180,7 +180,7 @@ setup(
     author='DeepMind',
     license='Apache License, Version 2.0',
     keywords='machine learning control physics MuJoCo AI',
-    python_requires='>=3.7, <3.10',
+    python_requires='>=3.6, <3.10',
     install_requires=[
         'absl-py>=0.7.0',
         'dm-env',
