@@ -111,7 +111,7 @@ class LoCAReacher(base.Task):
     """Returns an observation of the state and the target position."""
     obs = collections.OrderedDict()
     obs['position'] = physics.position()
-    obs['to_targets'] = physics.finger_to_targets()
+    obs['to_targets'] = np.array(physics.finger_to_targets())
     obs['velocity'] = physics.velocity()
     return obs
 
