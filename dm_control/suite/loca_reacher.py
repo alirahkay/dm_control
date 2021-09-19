@@ -62,14 +62,14 @@ class Physics(mujoco.Physics):
 
   def finger_to_targets(self):
     """Returns the vectors from targets to finger in global coordinates."""
-    finger_to_a = (self.named.data.geom_xpos['target_a', :2] - self.named.data.geom_xpos['finger', :2]) 
-    finger_to_b = (self.named.data.geom_xpos['target_b', :2] - self.named.data.geom_xpos['finger', :2])  
-    return (finger_to_a, finger_to_b)
+    finger_to_target_1 = (self.named.data.geom_xpos['target_1', :2] - self.named.data.geom_xpos['finger', :2])
+    finger_to_target_2 = (self.named.data.geom_xpos['target_2', :2] - self.named.data.geom_xpos['finger', :2])
+    return (finger_to_target_1, finger_to_target_2)
 
   def finger_to_targets_dist(self):
     """Returns the signed distance between the finger and targets surface."""
-    finger_to_a, finger_to_b = self.finger_to_targets()
-    return (np.linalg.norm(finger_to_a), np.linalg.norm(finger_to_b)) 
+    finger_to_target_1, finger_to_target_2 = self.finger_to_targets()
+    return (np.linalg.norm(finger_to_target_1), np.linalg.norm(finger_to_target_2))
 
 
 class LoCAReacher(base.Task):
@@ -86,24 +86,24 @@ class LoCAReacher(base.Task):
         automatically (default).
     """
     self._target_size = target_size
+    self._target_1_r = 4
+    self._target_2_r = 2
     super().__init__(random=random)
 
   def initialize_episode(self, physics):
     """Sets the state of the environment at the start of each episode."""
-    physics.named.model.geom_size['target_a', 0] = self._target_size
-    physics.named.model.geom_size['target_b', 0] = self._target_size
+    physics.named.model.geom_size['target_1', 0] = self._target_size
+    physics.named.model.geom_size['target_2', 0] = self._target_size
     randomizers.randomize_limited_and_rotational_joints(physics, self.random)
 
-    # Randomize targets position
-    angle = self.random.uniform(0, 2 * np.pi)
-    radius = self.random.uniform(.05, .20)
-    physics.named.model.geom_pos['target_a', 'x'] = radius * np.sin(angle)
-    physics.named.model.geom_pos['target_a', 'y'] = radius * np.cos(angle)
-
-    angle = self.random.uniform(0, 2 * np.pi)
-    radius = self.random.uniform(.05, .20)
-    physics.named.model.geom_pos['target_b', 'x'] = radius * np.sin(angle)
-    physics.named.model.geom_pos['target_b', 'y'] = radius * np.cos(angle)
+    # Targets position
+    angle_1 = 0.5 * np.pi
+    angle_2 = 1.5 * np.pi
+    radius = 0.1
+    physics.named.model.geom_pos['target_1', 'x'] = radius * np.sin(angle_1)
+    physics.named.model.geom_pos['target_1', 'y'] = radius * np.cos(angle_1)
+    physics.named.model.geom_pos['target_2', 'x'] = radius * np.sin(angle_2)
+    physics.named.model.geom_pos['target_2', 'y'] = radius * np.cos(angle_2)
 
     super().initialize_episode(physics)
 
@@ -116,6 +116,13 @@ class LoCAReacher(base.Task):
     return obs
 
   def get_reward(self, physics):
-    radii = physics.named.model.geom_size[['target_a', 'finger'], 0].sum()
-    finger_to_a_dist, finger_to_b_dist = physics.finger_to_targets_dist() 
-    return rewards.tolerance(finger_to_a_dist ,(0, radii)) + 4 * rewards.tolerance(finger_to_b_dist ,(0, radii)) 
+    radii = physics.named.model.geom_size[['target_1', 'finger'], 0].sum()
+    finger_to_target_1_dist, finger_to_target_2_dist = physics.finger_to_targets_dist()
+    return self._target_1_r * rewards.tolerance(finger_to_target_1_dist ,(0, radii)) + \
+       self._target_2_r * rewards.tolerance(finger_to_target_2_dist ,(0, radii))
+
+  def switch_loca_task(self):
+    if self._target_1_r == 4:
+      self._target_1_r = 1
+    else:
+      self._target_1_r = 4

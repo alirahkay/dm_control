@@ -36,10 +36,10 @@
         </body>
       </body>
     </body>
-    <!-- Target A -->
-    <geom name="target_a" pos="-0.1 -0.1 .01" material="target" type="sphere" size=".05"/>
-    <!-- Target B -->
-    <geom name="target_b" pos="0.1 0.1 .01" material="target" type="sphere" size=".05"/>
+    <!-- Target 1 -->
+    <geom name="target_1" pos="-0.1 -0.1 .01" material="target" type="sphere" size=".05"/>
+    <!-- Target 2 -->
+    <geom name="target_2" pos="0.1 0.1 .01" material="target" type="sphere" size=".05"/>
   </worldbody>
 
   <actuator>
