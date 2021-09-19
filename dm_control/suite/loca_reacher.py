@@ -97,9 +97,9 @@ class LoCAReacher(base.Task):
     randomizers.randomize_limited_and_rotational_joints(physics, self.random)
 
     # Targets position
-    angle_1 = 0.5 * np.pi
-    angle_2 = 1.5 * np.pi
-    radius = 0.1
+    angle_1 = 0.25 * np.pi
+    angle_2 = 1.25 * np.pi
+    radius = 0.2
     physics.named.model.geom_pos['target_1', 'x'] = radius * np.sin(angle_1)
     physics.named.model.geom_pos['target_1', 'y'] = radius * np.cos(angle_1)
     physics.named.model.geom_pos['target_2', 'x'] = radius * np.sin(angle_2)
