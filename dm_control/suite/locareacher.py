@@ -34,7 +34,7 @@ _SMALL_TARGET = .015
 
 def get_model_and_assets():
   """Returns a tuple containing the model XML string and a dict of assets."""
-  return common.read_model('loca_reacher.xml'), common.ASSETS
+  return common.read_model('locareacher.xml'), common.ASSETS
 
 
 @SUITE.add('benchmarking', 'easy')
@@ -86,7 +86,7 @@ class LoCAReacher(base.Task):
         automatically (default).
     """
     self._target_size = target_size
-    self._target_1_r = 4
+    self._target_1_r = 1
     self._target_2_r = 2
     super().__init__(random=random)
 
@@ -99,7 +99,7 @@ class LoCAReacher(base.Task):
     # Targets position
     angle_1 = 0.25 * np.pi
     angle_2 = 1.25 * np.pi
-    radius = 0.2
+    radius = 0.15
     physics.named.model.geom_pos['target_1', 'x'] = radius * np.sin(angle_1)
     physics.named.model.geom_pos['target_1', 'y'] = radius * np.cos(angle_1)
     physics.named.model.geom_pos['target_2', 'x'] = radius * np.sin(angle_2)
