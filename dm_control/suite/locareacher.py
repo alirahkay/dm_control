@@ -86,7 +86,7 @@ class LoCAReacher(base.Task):
         automatically (default).
     """
     self._target_size = target_size
-    self._target_1_r = 1
+    self._target_1_r = 4 
     self._target_2_r = 2
     super().__init__(random=random)
 
