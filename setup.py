@@ -32,8 +32,7 @@ PLATFORM_SUFFIXES = {
     'Windows': 'win64',
     'Darwin': 'macos',
 }
-DEFAULT_HEADERS_DIR = '/opt/mujoco200_{}/include'.format(
-    PLATFORM_SUFFIXES[platform.system()])
+DEFAULT_HEADERS_DIR = '~/.mujoco/mujoco210/include'
 
 # Relative paths to the binding generator script and the output directory.
 AUTOWRAP_PATH = 'dm_control/autowrap/autowrap.py'
@@ -42,7 +41,8 @@ MJBINDINGS_DIR = 'dm_control/mujoco/wrapper/mjbindings'
 # We specify the header filenames explicitly rather than listing the contents
 # of the `HEADERS_DIR` at runtime, since it will probably contain other stuff
 # (e.g. `glfw.h`).
-HEADER_FILENAMES = [ 'mjdata.h',
+HEADER_FILENAMES = [
+    'mjdata.h',
     'mjmodel.h',
     'mjrender.h',
     'mjui.h',
@@ -180,7 +180,7 @@ setup(
     author='DeepMind',
     license='Apache License, Version 2.0',
     keywords='machine learning control physics MuJoCo AI',
-    python_requires='>=3.6, <3.10',
+    python_requires='>=3.7, <3.10',
     install_requires=[
         'absl-py>=0.7.0',
         'dm-env',
