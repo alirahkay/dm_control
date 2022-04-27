@@ -41,6 +41,7 @@ from dm_control.suite import stacker
 from dm_control.suite import swimmer
 from dm_control.suite import walker
 from dm_control.suite import locareacher
+from dm_control.suite import reacherloca
 
 # Find all domains imported.
 _DOMAINS = {name: module for name, module in locals().items()
